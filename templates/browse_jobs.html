@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browse Jobs — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">Job<span>Connect</span></div>
+        <div class="subtitle">Find Your Next Job</div>
+      </div>
+
+      <nav class="nav">
+        <a href="{{ url_for('worker') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('worker_profile', user_id=user_id) }}" class="nav-link">Profile</a>
+        <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container browse-section">
+
+    <div class="browse-head">
+      <h2>Browse Jobs by Category</h2>
+      <p class="muted">Welcome, <strong>{{ name }}</strong> 👋</p>
+    </div>
+
+    <!-- Categories & Jobs -->
+    {% if categories %}
+      {% for cat, jobs in categories.items() %}
+        <section class="job-category">
+          <div class="category-header">
+            <h3 class="category-name">{{ cat }}</h3>
+            <span class="count-pill">{{ jobs|length }} jobs</span>
+          </div>
+
+          <div class="job-grid">
+            {% for job in jobs %}
+              <article class="job-card browse-card">
+
+                <div class="job-card-head">
+                  <h4 class="job-title">{{ job['title'] }}</h4>
+                </div>
+
+                <div class="job-meta">
+                  <div><strong>Location:</strong> {{ job['location'] }}</div>
+                  <div><strong>Salary:</strong> ₹{{ job['salary'] }}</div>
+                </div>
+
+                <p class="job-desc">{{ job['description'] }}</p>
+
+                {% if job['qualifications'] %}
+                  <p class="job-qual"><strong>Qualifications:</strong> {{ job['qualifications'] }}</p>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('apply_job', job_id=job['id']) }}" class="apply-container">
+                  <button type="submit" class="btn primary full">Apply</button>
+                </form>
+
+              </article>
+            {% endfor %}
+          </div>
+
+        </section>
+      {% endfor %}
+    {% else %}
+      <p class="muted" style="margin-top:20px;">No jobs available at the moment.</p>
+    {% endif %}
+
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 JobConnect — All rights reserved.</small>
+  </footer>
+
+</body>
+</html>

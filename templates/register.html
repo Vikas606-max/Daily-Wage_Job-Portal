@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">Job<span>Connect</span></div>
+        <div class="subtitle">Create Your Account</div>
+      </div>
+
+      <nav class="nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/login" class="nav-link">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Auth Section -->
+  <main class="auth-area container">
+
+    <div class="auth-card">
+      <h2 class="auth-title">Create Account ✨</h2>
+      <p class="auth-sub">Join JobConnect as a Worker or Employer</p>
+
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+      {% endwith %}
+
+      <form method="post" class="auth-form">
+
+        <input type="text" name="name" placeholder="Full Name" required>
+
+        <input type="text" name="contact" placeholder="Contact Number" required>
+
+        <input type="email" name="email" placeholder="Email Address" required>
+
+        <input type="password" name="password" placeholder="Password" required>
+
+        <input type="text" name="adhar_no" placeholder="Aadhar Number (12 digits) — Only for Employers">
+
+        <select name="role" required>
+          <option value="">Select Role</option>
+          <option value="worker">Worker</option>
+          <option value="employer">Employer</option>
+        </select>
+
+        <button type="submit" class="btn primary full">Sign Up</button>
+
+        <p class="switch-link">
+          Already have an account?
+          <a href="/login">Login</a>
+        </p>
+
+      </form>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 JobConnect. All rights reserved.</small>
+  </footer>
+
+</body>
+</html>

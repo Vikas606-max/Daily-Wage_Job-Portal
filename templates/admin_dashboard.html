@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">Job<span>Connect</span></div>
+        <div class="subtitle">Admin Panel</div>
+      </div>
+
+      <nav class="nav">
+        <a href="/admin" class="nav-link">Home</a>
+        <a href="/logout" class="nav-cta">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Body -->
+  <main class="container admin-container">
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="admin-card">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Aadhar Number</th>
+            <th>Status</th>
+            <th style="text-align:center;">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for employer in employers %}
+          <tr>
+            <td>{{ employer['name'] }}</td>
+            <td>{{ employer['email'] }}</td>
+
+            <td>
+              {% if employer['adhar_no'] %}
+                {% set ad = employer['adhar_no'] | string %}
+                <strong>**** **** {{ ad[-4:] }}</strong>
+              {% else %}
+                <span class="muted">Not provided</span>
+              {% endif %}
+            </td>
+
+            <td>
+              <span class="status-pill {% if employer['verified'] %}verified{% else %}pending{% endif %}">
+                {% if employer['verified'] %}Verified{% else %}Pending{% endif %}
+              </span>
+            </td>
+
+            <td class="actions-cell">
+              {% if not employer['verified'] %}
+                <form method="POST" action="{{ url_for('verify_employer', employer_id=employer['id']) }}">
+                  <button class="btn small success">Verify</button>
+                </form>
+
+                <form method="POST" action="{{ url_for('reject_employer', employer_id=employer['id']) }}">
+                  <button class="btn small danger">Reject</button>
+                </form>
+              {% else %}
+                <span class="verified-check">✓ Verified</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 JobConnect. Admin Console</small>
+  </footer>
+
+</body>
+</html>

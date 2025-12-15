@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Profile — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+  <!-- Top Navbar (matches dashboard) -->
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">Job<span>Connect</span></div>
+        <div class="subtitle">Worker Profile</div>
+      </div>
+
+      <nav class="nav">
+        <a href="{{ url_for('worker') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container profile-wrapper">
+
+    <!-- Profile Card -->
+    <div class="profile-box">
+      <!-- Banner -->
+      <div class="profile-banner"></div>
+
+      <!-- Profile Image -->
+      <div class="profile-photo-wrapper">
+        {% if profile and profile['profile_photo'] %}
+          <img src="{{ url_for('uploaded_profile', filename=profile['profile_photo']) }}"
+               class="profile-photo">
+        {% else %}
+          <img src="{{ url_for('static', filename='images/user.png') }}" class="profile-photo">
+        {% endif %}
+      </div>
+
+      <div class="profile-content">
+
+        <!-- Header -->
+        <div class="profile-header">
+          <div class="info">
+            <h1>{{ session['name'] }}</h1>
+            <p class="tagline">
+              {{ profile['skills'] if profile and profile['skills'] else 'No skills added yet' }}
+            </p>
+          </div>
+
+          <a href="{{ url_for('edit_worker_profile') }}" class="btn primary">Edit Profile</a>
+        </div>
+
+        <!-- Skills -->
+        <section class="profile-section">
+          <h3>Skills</h3>
+          <p>{{ profile['skills'] if profile and profile['skills'] else 'Add your skills here...' }}</p>
+        </section>
+
+        <!-- Experience -->
+        <section class="profile-section">
+          <h3>Experience</h3>
+          <p>{{ profile['experience'] if profile and profile['experience'] else 'Add your experience...' }}</p>
+        </section>
+
+        <!-- Achievements -->
+        <section class="profile-section">
+          <h3>Achievements</h3>
+          <p>{{ profile['achievements'] if profile and profile['achievements'] else 'Add your achievements...' }}</p>
+        </section>
+
+        <!-- Resume -->
+        {% if profile and profile['resume_path'] %}
+        <div class="resume-box">
+          <a href="{{ url_for('uploaded_resume', filename=profile['resume_path']) }}" target="_blank" class="btn resume-btn">
+            📄 View Resume
+          </a>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 JobConnect — Empowering Workers</small>
+  </footer>
+
+</body>
+</html>

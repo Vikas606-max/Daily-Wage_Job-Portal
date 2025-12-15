@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Workers — JobConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Top Navbar -->
+    <header class="topbar">
+        <div class="container">
+            <div class="brand">
+                <div class="logo">Job<span>Connect</span></div>
+                <div class="subtitle">Available Workers</div>
+            </div>
+
+            <nav class="nav">
+                <a href="{{ url_for('employer') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('view_workers') }}" class="nav-link active">Workers</a>
+                <a href="{{ url_for('view_applicants') }}" class="nav-link">Applicants</a>
+                <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Page -->
+    <main class="main container">
+
+        <!-- Page Header -->
+        <div class="page-head">
+            <h2>Available Workers</h2>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="searchbar-box">
+            <form method="GET" action="/view_workers" class="searchbar">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Search by name, skill or location..." 
+                    value="{{ request.args.get('query', '') }}"
+                >
+
+                <button type="submit" class="btn primary">
+                     Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Workers Grid -->
+        <div class="workers-grid">
+
+            {% if workers %}
+                {% for w in workers %}
+                <div class="worker-card-modern">
+
+                    <!-- Profile Row -->
+                    <div class="worker-top">
+                        <div class="worker-photo" style="background-image: url('{{ photo_url }}');"></div>
+
+
+                        <div class="worker-info">
+                            <h3>{{ w.name }}</h3>
+                            {% if w.skills %}
+                            <span class="pill">{{ w.skills.split(",")[0] }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="worker-details">
+                        {% if w.skills %}
+                        <p><strong>Skills:</strong> {{ w.skills }}</p>
+                        {% endif %}
+
+                        {% if w.experience %}
+                        <p><strong>Experience:</strong> {{ w.experience }}</p>
+                        {% endif %}
+
+                        {% if w.achievements %}
+                        <p><strong>Achievements:</strong> {{ w.achievements }}</p>
+                        {% endif %}
+
+                        {% if w.contact %}
+                        <p><strong>Contact:</strong> {{ w.contact }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Resume Button -->
+                    {% if w.resume_path %}
+                    <a href="{{ url_for('uploaded_resume', filename=w['resume_path']) }}" class="btn primary" target="_blank">
+                        📄 View Resume
+                    </a>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+
+            {% else %}
+                <p class="muted" style="text-align:center; width:100%; margin-top:20px;">
+                    No workers found.
+                </p>
+            {% endif %}
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <small>© 2025 JobConnect — All rights reserved.</small>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JobConnect — Find Jobs & Hire Workers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header class="topbar">
+        <div class="container">
+            <div class="brand">
+                <div class="logo">Job<span>Connect</span></div>
+                <div class="subtitle">Connecting Workers & Employers</div>
+            </div>
+
+            <nav class="nav">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                <a href="{{ url_for('register') }}" class="nav-cta">Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section container">
+
+        <div class="hero-content">
+            <h1 class="hero-title">Find Workers & Jobs Faster</h1>
+            <p class="hero-subtitle">
+                A smarter platform connecting employers with reliable workers.  
+                Post jobs, apply instantly, and build opportunities with ease.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="{{ url_for('register') }}" class="btn primary large">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn ghost large">Login</a>
+            </div>
+        </div>
+
+        <div class="hero-illustration">
+            <img src="static/images/images.jpg" alt="Illustration" class="hero-img">
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <small>© 2025 JobConnect. All rights reserved.</small>
+    </footer>
+
+</body>
+</html>

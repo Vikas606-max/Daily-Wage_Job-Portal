@@ -1,0 +1,1 @@
+console.log('Job Portal JS loaded');

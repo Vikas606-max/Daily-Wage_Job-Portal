@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- Optional Topbar (matches site theme) -->
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">Job<span>Connect</span></div>
+        <div class="subtitle">Admin Access</div>
+      </div>
+
+      <nav class="nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/login" class="nav-link">User Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Auth Container -->
+  <main class="auth-area container">
+    <div class="auth-card">
+
+      <h2 class="auth-title">Admin Login 🔐</h2>
+      <p class="auth-sub">Restricted Access — Admins only</p>
+
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+      {% endwith %}
+
+      <form method="POST" class="auth-form">
+        <input type="email" name="email" placeholder="Admin Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+
+        <button type="submit" class="btn primary full">Login</button>
+      </form>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 JobConnect. Admin Panel.</small>
+  </footer>
+
+</body>
+</html>

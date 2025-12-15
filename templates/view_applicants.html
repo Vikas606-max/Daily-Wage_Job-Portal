@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Applicants</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Job<span>Connect</span></div>
+    <ul class="nav-links">
+        <li><a href="{{ url_for('employer') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('view_applicants') }}" class="active">View Applicants</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2>Applicants for Your Jobs</h2>
+
+    {% if applicants %}
+        {% for a in applicants %}
+           <div class="job-card">
+    <div class="applicant-header">
+        <div class="applicant-info">
+            <img src="{{ url_for('uploaded_profile', filename=a.profile_photo) if a.profile_photo else url_for('static', filename='images/user.png') }}"
+                 alt="Profile Photo" class="applicant-photo">
+
+            <div>
+                <h3>{{ a.worker_name }}</h3>
+                <p><strong>Applied For:</strong> {{ a.job_title }}</p>
+                <p><strong>Applied On:</strong> {{ a.applied_at }}</p>
+                <p><strong>Contact:</strong> {{ a.worker_contact }}</p>
+            </div>
+
+        </div>
+
+        <!-- HIRE BUTTON -->
+        <form method="POST" action="{{ url_for('hire_worker') }}">
+            <input type="hidden" name="job_id" value="{{ a.job_id }}">
+            <input type="hidden" name="worker_id" value="{{ a.worker_id }}">
+            <button type="submit" class="btn primary">Hire Worker</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <p><strong>Skills:</strong> {{ a.skills or 'Not Provided' }}</p>
+    <p><strong>Experience:</strong> {{ a.experience or 'Not Provided' }}</p>
+</div>
+
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center; color:#777;">No applicants yet.</p>
+    {% endif %}
+</div>
+
+<footer>
+    <p>© 2025 JobConnect. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Worker Dashboard — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="container">
+        <div class="brand">
+            <div class="logo">Job<span>Connect</span></div>
+            <div class="subtitle">Worker Dashboard</div>
+        </div>
+
+        <nav class="nav">
+            <a href="{{ url_for('worker') }}" class="nav-link active">Dashboard</a>
+            <a href="{{ url_for('worker_profile', user_id=user_id) }}" class="nav-link">Profile</a>
+             <div id="google_translate_element"></div>
+            <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main container">
+
+    <div class="dashboard-head">
+        <h2>Welcome, {{ name }}</h2>
+        <p>Browse jobs matched to your skills and preferences.</p>
+    </div>
+
+    <div class="two-window">
+
+        <!-- LEFT WINDOW: JOB LISTINGS -->
+        <div class="window-box left-box">
+            <h3>Available Jobs</h3>
+
+            <label for="categorySelect" class="filter-label">Filter by Category</label>
+            <select id="categorySelect" class="filter-select">
+                <option value="all">All Jobs</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+                {% endfor %}
+            </select>
+
+            <section id="jobContainer">
+                {% for category, jobs_list in jobs.items() %}
+                <div class="job-section" data-category="{{ category }}">
+
+                    <h4 class="section-title">{{ category }}</h4>
+
+                    {% for job in jobs_list %}
+                    <article class="job-card-modern">
+
+                        <div class="job-head">
+                            <h3>{{ job.title }}</h3>
+                            <span class="pill">{{ job.location }}</span>
+                        </div>
+
+                        <p><strong>Salary:</strong> ₹{{ job.salary }}</p>
+                        <p><strong>Description:</strong> {{ job.description }}</p>
+                        <p><strong>Qualifications:</strong> {{ job.qualifications }}</p>
+                        <p><strong>Workers Needed:</strong> {{ job.workers_needed }}</p>
+                        <p><strong>Duration:</strong> {{ job.duration }}</p>
+                        <p><strong>Timing:</strong> {{ job.start_time }} - {{ job.end_time }}</p>
+
+                        <button class="btn primary full" onclick="applyJob('{{ job.id }}')">Apply</button>
+
+                    </article>
+                    {% endfor %}
+
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+
+        <!-- RIGHT WINDOW: NOTIFICATIONS -->
+        <div class="window-box right-box">
+            <h3>Your Notifications</h3>
+
+            {% if notifications %}
+              {% for n in notifications %}
+                <div class="notification-card">
+                  <h4>🎉 You were hired!</h4>
+                  <p><b>Job:</b> {{ n.job_title }}</p>
+                  <p><b>Employer:</b> {{ n.employer_name }}</p>
+                  <p><b>For More Information Contact Employer at:</b> {{ n.employer_contact }}</p>
+                  <p class="muted small"><b>Date:</b> {{ n.hired_at }}</p>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="muted">No hiring notifications yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <small>© 2025 JobConnect — All rights reserved.</small>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const categorySelect = document.getElementById("categorySelect");
+        const jobSections = document.querySelectorAll(".job-section");
+
+        categorySelect.addEventListener("change", () => {
+            const selected = categorySelect.value.toLowerCase();
+            jobSections.forEach(section => {
+                section.style.display =
+                    selected === "all" || section.dataset.category.toLowerCase() === selected
+                    ? "block"
+                    : "none";
+            });
+        });
+    });
+
+    function applyJob(jobId) {
+        fetch(`/apply_job/${jobId}`, { method: "POST" })
+            .then(res => res.json())
+            .then(data => alert(data.message))
+            .catch(() => alert("Error applying for job."));
+    }
+</script>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,mr,fr,de,es,it,gu,ta,te',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+<script type="text/javascript" 
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+  </script>
+
+</body>
+</html>

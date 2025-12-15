@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Worker Profile — JobConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">Job<span>Connect</span></div>
+        <div class="subtitle">Worker Profile Settings</div>
+      </div>
+
+      <nav class="nav">
+        <a href="{{ url_for('worker') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Profile Form -->
+  <main class="auth-area container">
+    <div class="auth-card" style="max-width: 520px;">
+
+      <h2 class="auth-title">Edit Your Profile</h2>
+      <p class="auth-sub">Update your skills, experience and details</p>
+
+      <form action="{{ url_for('edit_worker_profile') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="auth-form">
+
+        <!-- Skills -->
+        <textarea name="skills" placeholder="Skills (e.g., Welding, Driving, Cooking)" rows="3">{{ profile.skills if profile else '' }}</textarea>
+
+        <!-- Experience -->
+        <textarea name="experience" placeholder="Experience (e.g., 2 years carpenter)" rows="3">{{ profile.experience if profile else '' }}</textarea>
+
+        <!-- Achievements -->
+        <textarea name="achievements" placeholder="Achievements (optional)" rows="3">{{ profile.achievements if profile else '' }}</textarea>
+
+        <!-- Profile Photo Section -->
+        <label class="time-label" style="margin-top:10px;">Profile Photo:</label>
+
+        {% if profile and profile.profile_photo %}
+        <div style="text-align:center;margin-bottom:12px;">
+          <img src="{{ url_for('uploaded_profile', filename=profile.profile_photo) }}"
+               width="110"
+               height="110"
+               style="border-radius:50%;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        </div>
+        {% endif %}
+
+        <input type="file" name="photo" accept="image/*">
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn primary full" style="margin-top:8px;">
+          Save Profile
+        </button>
+
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 JobConnect. All rights reserved.</small>
+  </footer>
+
+</body>
+</html>

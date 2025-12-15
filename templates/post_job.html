@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Post Job</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>Post a New Job</h2>
+    <form method="POST">
+
+      <input type="text" name="title" placeholder="Job Title" required>
+
+      <textarea name="description" placeholder="Job Description" required></textarea>
+
+      <input type="text" name="salary" placeholder="Daily Wage / Hourly Rate (₹)" required>
+
+      <input type="text" name="location" placeholder="Job Location" required>
+
+      <input type="text" name="qualifications" placeholder="Qualifications Required">
+
+      <!-- New Fields -->
+      <input type="number" name="workers_needed" placeholder="Number of Workers Required" min="1" required>
+
+      <input type="text" name="duration" placeholder="Duration (e.g., 1 day, 3 days, 1 week)" required>
+
+      <label>Start Time:</label>
+      <input type="time" name="start_time" required>
+
+      <label>End Time:</label>
+      <input type="time" name="end_time" required>
+
+      <select name="category" required>
+  <option value="">Select Category</option>
+  <optgroup label="House Help">
+    <option>Housekeeper / Maid</option>
+    <option>Cook</option>
+    <option>Babysitter</option>
+    <option>Caretaker</option>
+    <option>Gardener</option>
+    <option>Car Washer</option>
+  </optgroup>
+  <optgroup label="Construction">
+    <option>Mason</option>
+    <option>Carpenter</option>
+    <option>Electrician</option>
+    <option>Plumber</option>
+    <option>Painter</option>
+    <option>Welder</option>
+    <option>Helper / Labourer</option>
+    <option>Fabricator</option>
+  </optgroup>
+  <optgroup label="Delivery">
+    <option>Food Delivery</option>
+    <option>Grocery Delivery</option>
+    <option>Courier Delivery</option>
+    <option>Pickup / Loading</option>
+  </optgroup>
+  <optgroup label="Driver">
+    <option>Car Driver</option>
+    <option>Auto Driver</option>
+    <option>Truck Driver</option>
+    <option>Tempo Driver</option>
+    <option>E-Rickshaw Driver</option>
+  </optgroup>
+  <optgroup label="Shop & Market Work">
+    <option>Loader / Unloader</option>
+    <option>Sales Helper</option>
+    <option>Packing Worker</option>
+    <option>Warehouse Helper</option>
+  </optgroup>
+  <optgroup label="Other">
+    <option>Cleaner</option>
+    <option>Sweeper</option>
+    <option>Waste Collector</option>
+    <option>Waiter</option>
+    <option>Farm Labour</option>
+    <option>Other</option>
+  </optgroup>
+</select>
+
+
+      <button type="submit">Post Job</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Jobs — JobConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- TOP NAVBAR (same design as dashboard) -->
+    <header class="topbar">
+        <div class="container">
+            <div class="brand">
+                <div class="logo">Job<span>Connect</span></div>
+                <div class="subtitle">Manage Jobs</div>
+            </div>
+
+            <nav class="nav">
+                <a href="{{ url_for('employer') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('view_workers') }}" class="nav-link">Workers</a>
+                <a href="{{ url_for('view_applicants') }}" class="nav-link">Applicants</a>
+                <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main container">
+
+        <!-- Header row with Post Job button -->
+        <div class="page-head">
+            <h2>My Job Listings</h2>
+
+            <a href="{{ url_for('employer') }}#post-job" class="btn primary" style="text-decoration:none;">
+                ➕ Post New Job
+            </a>
+        </div>
+
+        <!-- Job List -->
+        <section class="jobs-list">
+
+            {% if jobs %}
+                {% for job in jobs %}
+                <article class="job-card">
+
+                    <div class="job-card-head">
+                        <h3 class="job-title">{{ job['title'] }}</h3>
+                        <span class="pill">{{ job['category'] }}</span>
+                    </div>
+
+                    <div class="job-meta">
+                        <div><strong>Location:</strong> {{ job['location'] }}</div>
+                        <div><strong>Salary:</strong> ₹{{ job['salary'] }}</div>
+                    </div>
+
+                    <p class="job-desc">{{ job['description'] }}</p>
+
+                    <p class="job-qual"><strong>Qualifications:</strong> {{ job['qualifications'] }}</p>
+
+                    <div class="job-actions">
+                        <a href="{{ url_for('edit_job', job_id=job['id']) }}" class="btn btn-edit">Edit</a>
+
+                        <form method="POST" action="{{ url_for('delete_job', job_id=job['id']) }}" onsubmit="return confirm('Delete this job?');">
+                            <button type="submit" class="btn btn-delete">Delete</button>
+                        </form>
+                    </div>
+
+                </article>
+                {% endfor %}
+
+            {% else %}
+                <p class="muted" style="text-align:center; margin-top:20px;">No jobs posted yet.</p>
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <small>© 2025 JobConnect — All rights reserved.</small>
+        </div>
+    </footer>
+
+</body>
+</html>
